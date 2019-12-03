@@ -5,6 +5,7 @@ import com.cp.microservice.mobileapi.exception.UserException;
 import com.cp.microservice.mobileapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ public class UserController {
     @Autowired
     private Environment environment;
 
+    //for /bus-refresh and @Value to work correctly mark the bean @RefreshScope
     @Value("${user.message:Hello}")
     private String message;
 
@@ -33,7 +35,7 @@ public class UserController {
 
     @GetMapping("/message")
     public String getMessage() {
-        return message;
+        return environment.getProperty("user.message");
     }
 
 

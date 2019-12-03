@@ -3,6 +3,7 @@ package com.cp.microservice.account.controller;
 import com.cp.microservice.account.dto.UserDto;
 import com.cp.microservice.account.exception.UserException;
 import com.cp.microservice.account.service.AccountService;
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,16 @@ public class AccountController {
     @Autowired
     private AccountService accontService;
 
+    //for /bus-refresh and @Value to work correctly mark the bean @RefreshScope
     @Value("${user.account.message:Hello}")
     private String message;
 
+    @Autowired
+    private Environment environment;
+
     @GetMapping("/message")
     public String getMessage() {
-        return message;
+        return environment.getProperty("user.account.message");
     }
 
     @GetMapping("")
