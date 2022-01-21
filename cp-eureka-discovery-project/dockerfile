@@ -1,0 +1,4 @@
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+COPY target/eureka-discovery-project-0.0.1-SNAPSHOT.jar eureka-discovery-server.jar
+ENTRYPOINT ["java" ,"-jar","eureka-discovery-server.jar"]
