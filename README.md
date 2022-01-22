@@ -25,3 +25,16 @@ verify using web interface
 
 > User Service Access via ZUUL API Gateway 
 > http://localhost:9080/user-ws/users/1
+
+### 6. This user creation request via POST call will send event to RabbitMQ and would be consumed by account application
+> http://localhost:9080/user-ws/users
+ 
+body 
+>  {
+    "firstName": "cp1",
+    "lastName": "sarath1e",
+    "email": "cp1.sars@gmddail.com",
+    "password": "df2354534512"
+   }
+
+### 7. Start Account application and check in the console listener message "Users Registered by Client" 

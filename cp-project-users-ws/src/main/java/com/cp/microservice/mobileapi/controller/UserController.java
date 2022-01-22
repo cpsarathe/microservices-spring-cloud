@@ -2,14 +2,15 @@ package com.cp.microservice.mobileapi.controller;
 
 import com.cp.microservice.mobileapi.dto.UserDto;
 import com.cp.microservice.mobileapi.exception.UserException;
+import com.cp.microservice.mobileapi.messaging.UserRegistrationSource;
 import com.cp.microservice.mobileapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    @Autowired
+    private UserRegistrationSource userRegistrationSource;
 
     @Autowired
     private UserService userService;
@@ -76,6 +80,8 @@ public class UserController {
             })
     public ResponseEntity createUser(@Valid @RequestBody UserDto userDto) {
         UserDto userDto1 = userService.createUser(userDto);
+        userRegistrationSource.userRegistration().send(MessageBuilder.withPayload(userDto1).build());
+
         return new ResponseEntity(userDto1, HttpStatus.OK);
     }
 
