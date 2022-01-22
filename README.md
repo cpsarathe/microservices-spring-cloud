@@ -37,4 +37,8 @@ body
     "password": "df2354534512"
    }
 
-### 7. Start Account application and check in the console listener message "Users Registered by Client" 
+### 7. Start Account application and check in the console listener message "Users Registered by Client"
+
+### 8. Start Zipkin server for distributed tracing
+> http://localhost:9411/zipkin/
+
